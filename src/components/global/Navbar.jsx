@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCart } from "react-icons/bs";
 import { HiChevronRight } from "react-icons/hi";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,12 +46,12 @@ export default function Navbar() {
       >
         <ul className="flex flex-col md:flex-row gap-4 md:gap-10 items-center justify-center">
           <li className="hidden lg:block">
-            <a
+            <Link
               href="/"
               className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4"
             >
               Home
-            </a>
+            </Link>
           </li>
           {mobileMenuItems.map((item) => {
             return (
@@ -104,7 +105,7 @@ export default function Navbar() {
             <GiHamburgerMenu color="white" size={32} />
           </button>
           <div className="ml-auto md:ml-8 lg:ml-0">
-            <a href="/" aria-label="Logo link - Home">
+            <Link href="/" aria-label="Logo link - Home">
               <Image
                 src="/assets/shared/desktop/logo.svg"
                 width={143}
@@ -112,7 +113,7 @@ export default function Navbar() {
                 className="object-cover"
                 alt="Website logo"
               />
-            </a>
+            </Link>
           </div>
           <MenuLinks />
           <button
