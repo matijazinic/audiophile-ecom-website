@@ -4,10 +4,11 @@ import { BsCart } from "react-icons/bs";
 import { HiChevronRight } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const router = useRouter();
   const mobileMenuItems = [
     {
       image: {
@@ -57,7 +58,7 @@ export default function Navbar() {
             return (
               <li
                 key={item.title}
-                className="flex flex-col items-center justify-center bg-gray-100 lg:bg-transparent relative p-6 lg:p-0 w-full md:w-60 lg:w-auto rounded-md mt-10 lg:mt-0"
+                className="flex flex-col items-center justify-center bg-gray-100 lg:bg-transparent relative p-6 lg:p-0 w-full md:w-60 lg:w-auto rounded-md mt-10 lg:mt-0 group"
               >
                 <Image
                   src={item.image.src}
@@ -66,13 +67,13 @@ export default function Navbar() {
                   alt={item.title}
                   className="lg:hidden object-contain absolute -top-9"
                 />
-                <a
+                <Link
                   href={item.url}
                   className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4 mt-12 lg:mt-0"
                 >
                   {item.title}
-                </a>
-                <a
+                </Link>
+                <Link
                   href={item.url}
                   className="uppercase text-sm text-black/50 lg:text-white tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4 mt-4 lg:hidden"
                 >
@@ -81,7 +82,7 @@ export default function Navbar() {
                     size={20}
                     className="inline text-brand text-base -mt-[1.5px]"
                   />
-                </a>
+                </Link>
               </li>
             );
           })}
@@ -91,9 +92,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="bg-black">
+    <header
+      className={`${
+        router.pathname === "/" ? "bg-transparent" : "bg-black"
+      } z-20 relative`}
+    >
       <nav
-        className="py-8 sm:pb-10 lg:py-12 px-4 lg:px-8 relative"
+        className="container mx-auto py-8 lg:py-12 px-4 md:px-8 lg:px-8 relative border-b border-b-white/10"
         aria-label="Main navigation"
       >
         <div className="container mx-auto flex flex-row items-center justify-between md:justify-start lg:justify-between">
