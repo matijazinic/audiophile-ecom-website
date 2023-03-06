@@ -5,9 +5,17 @@ import { HiChevronRight } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Cart from "../cart/Cart";
+import { atom, useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
+import { cartAtom, cartToggle } from "@/state";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useAtom(cartToggle);
+  const cartAmount = useAtomValue(cartAtom).length;
+
+  console.log(cartAmount);
+
   const router = useRouter();
   const mobileMenuItems = [
     {
@@ -49,6 +57,7 @@ export default function Navbar() {
           <li className="hidden lg:block">
             <Link
               href="/"
+              onClick={() => setMobileOpen(false)}
               className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4"
             >
               Home
@@ -69,12 +78,14 @@ export default function Navbar() {
                 />
                 <Link
                   href={item.url}
+                  onClick={() => setMobileOpen(false)}
                   className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4 mt-12 lg:mt-0"
                 >
                   {item.title}
                 </Link>
                 <Link
                   href={item.url}
+                  onClick={() => setMobileOpen(false)}
                   className="uppercase text-sm text-black/50 lg:text-white tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4 mt-4 lg:hidden"
                 >
                   Shop{" "}
@@ -103,14 +114,24 @@ export default function Navbar() {
       >
         <div className="container mx-auto flex flex-row items-center justify-between md:justify-start lg:justify-between">
           <button
-            onClick={() => setMobileOpen((prev) => !prev)}
+            onClick={() => {
+              setCartOpen(false);
+              setMobileOpen((prev) => !prev);
+            }}
             className="group lg:hidden"
             aria-label="Mobile navigation"
           >
             <GiHamburgerMenu color="white" size={32} />
           </button>
           <div className="ml-auto md:ml-8 lg:ml-0">
-            <Link href="/" aria-label="Logo link - Home">
+            <Link
+              href="/"
+              onClick={() => {
+                setCartOpen(false);
+                setMobileOpen(false);
+              }}
+              aria-label="Logo link - Home"
+            >
               <Image
                 src="/assets/shared/desktop/logo.svg"
                 width={143}
@@ -122,14 +143,23 @@ export default function Navbar() {
           </div>
           <MenuLinks />
           <button
-            onClick={() => setMobileOpen((prev) => !prev)}
-            className="ml-auto"
+            onClick={() => {
+              setMobileOpen(false);
+              setCartOpen((prev) => !prev);
+            }}
+            className="ml-auto relative"
             aria-label="Shopping cart"
           >
             <BsCart color="white" size={32} />
+            {cartAmount > 0 && (
+              <p className="absolute -top-2 -right-2 bg-red-500 text-sm rounded-full w-5 h-5 flex justify-center items-center text-white">
+                {cartAmount}
+              </p>
+            )}
           </button>
         </div>
       </nav>
+      {cartOpen && <Cart />}
     </header>
   );
 }
