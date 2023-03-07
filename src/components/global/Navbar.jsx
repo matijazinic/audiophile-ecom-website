@@ -1,98 +1,59 @@
-import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { BsCart } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import {
+  AiOutlineMenu,
+  AiOutlineClose,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { HiChevronRight } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Cart from "../cart/Cart";
 import { atom, useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
-import { cartAtom, cartToggle } from "@/state";
+import { cartAtom, cartToggle, mobileToggle } from "@/state";
+import {
+  productCategories as mobileMenuItems,
+  productCategories,
+} from "@/constants";
+import BrowseCategories from "./BrowseCategories";
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useAtom(mobileToggle);
   const [cartOpen, setCartOpen] = useAtom(cartToggle);
   const cartAmount = useAtomValue(cartAtom).length;
 
   console.log(cartAmount);
 
   const router = useRouter();
-  const mobileMenuItems = [
-    {
-      image: {
-        src: "/assets/shared/desktop/image-category-thumbnail-headphones.png",
-        width: 100,
-        height: 134,
-      },
-      title: "Headphones",
-      url: "/headphones",
-    },
-    {
-      image: {
-        src: "/assets/shared/desktop/image-category-thumbnail-speakers.png",
-        width: 104,
-        height: 131,
-      },
-      title: "Speakers",
-      url: "/speakers",
-    },
-    {
-      image: {
-        src: "/assets/shared/desktop/image-category-thumbnail-earphones.png",
-        width: 132,
-        height: 134,
-      },
-      title: "Earphones",
-      url: "/earphones",
-    },
-  ];
-  const MenuLinks = () => {
+
+  useEffect(() => {
+    mobileOpen || cartOpen
+      ? (document.body.className = "overflow-hidden bg-[#F2F2F2]")
+      : (document.body.className = "overflow-auto bg-[#F2F2F2]");
+  }, [mobileOpen, cartOpen]);
+
+  const DesktopMenuLinks = () => {
     return (
       <div
-        className={`${
-          mobileOpen ? "flex" : "hidden"
-        } absolute lg:relative top-24 right-0 w-full lg:w-auto lg:inset-0 shadow-xl lg:shadow-none rounded-lg lg:rounded-none bg-white lg:bg-transparent text-black lg:text-white p-4 sm:p-6 md:p-8 lg:p-0 lg:flex flex-col lg:flex-row mx-auto gap-10 z-10`}
+        className={`hidden absolute lg:relative top-24 right-0 w-full lg:w-auto lg:inset-0 shadow-xl lg:shadow-none rounded-lg lg:rounded-none bg-white lg:bg-transparent text-black lg:text-white p-4 sm:p-6 md:p-8 lg:p-0 lg:flex flex-col lg:flex-row mx-auto gap-10 z-10`}
       >
         <ul className="flex flex-col md:flex-row gap-4 md:gap-10 items-center justify-center">
           <li className="hidden lg:block">
             <Link
               href="/"
-              onClick={() => setMobileOpen(false)}
-              className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4"
+              className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:text-brand transition-all"
             >
               Home
             </Link>
           </li>
-          {mobileMenuItems.map((item) => {
+          {productCategories.map((item) => {
             return (
-              <li
-                key={item.title}
-                className="flex flex-col items-center justify-center bg-gray-100 lg:bg-transparent relative p-6 lg:p-0 w-full md:w-60 lg:w-auto rounded-md mt-10 lg:mt-0 group"
-              >
-                <Image
-                  src={item.image.src}
-                  width={item.image.width}
-                  height={item.image.height}
-                  alt={item.title}
-                  className="lg:hidden object-contain absolute -top-9"
-                />
+              <li key={item.title} className="hidden lg:block">
                 <Link
                   href={item.url}
-                  onClick={() => setMobileOpen(false)}
-                  className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4 mt-12 lg:mt-0"
+                  className="uppercase text-sm tracking-[1px] lg:tracking-[2px] font-bold hover:text-brand transition-all"
                 >
                   {item.title}
-                </Link>
-                <Link
-                  href={item.url}
-                  onClick={() => setMobileOpen(false)}
-                  className="uppercase text-sm text-black/50 lg:text-white tracking-[1px] lg:tracking-[2px] font-bold hover:underline hover:underline-offset-4 mt-4 lg:hidden"
-                >
-                  Shop{" "}
-                  <HiChevronRight
-                    size={20}
-                    className="inline text-brand text-base -mt-[1.5px]"
-                  />
                 </Link>
               </li>
             );
@@ -121,7 +82,11 @@ export default function Navbar() {
             className="group lg:hidden"
             aria-label="Mobile navigation"
           >
-            <GiHamburgerMenu color="white" size={32} />
+            {mobileOpen ? (
+              <AiOutlineClose color="white" size={32} />
+            ) : (
+              <AiOutlineMenu color="white" size={32} />
+            )}
           </button>
           <div className="ml-auto md:ml-8 lg:ml-0">
             <Link
@@ -141,7 +106,7 @@ export default function Navbar() {
               />
             </Link>
           </div>
-          <MenuLinks />
+          <DesktopMenuLinks />
           <button
             onClick={() => {
               setMobileOpen(false);
@@ -150,7 +115,7 @@ export default function Navbar() {
             className="ml-auto relative"
             aria-label="Shopping cart"
           >
-            <BsCart color="white" size={32} />
+            <AiOutlineShoppingCart color="white" size={32} />
             {cartAmount > 0 && (
               <p className="absolute -top-2 -right-2 bg-red-500 text-sm rounded-full w-5 h-5 flex justify-center items-center text-white">
                 {cartAmount}
@@ -160,6 +125,15 @@ export default function Navbar() {
         </div>
       </nav>
       {cartOpen && <Cart />}
+      {mobileOpen && (
+        <div className="lg:hidden absolute bg-black/50 top-24 inset-0 h-[100dvh] w-full z-30">
+          <div className="container mx-auto px-4 relative lg:top-8">
+            <div className="mt-4 rounded-lg p-10 md:py-16 bg-white w-auto lg:w-[32rem] md:mr-0 mx-auto z-20">
+              <BrowseCategories isMobileMenu={true} />
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

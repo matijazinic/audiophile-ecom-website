@@ -1,5 +1,7 @@
 import Products from "@/components/category/Products";
 import Title from "@/components/category/Title";
+import About from "@/components/global/About";
+import BrowseCategories from "@/components/global/BrowseCategories";
 import { capitalize } from "@/hooks/capitalize";
 import Head from "next/head";
 import Image from "next/image";
@@ -21,7 +23,19 @@ export default function Category({ items }) {
         <link rel="icon" href="/assets/favicon-32x32.png" />
       </Head>
       <Title items={items} />
-      <Products items={items} />;
+      <section className="lg:mt-8">
+        <Products items={items} />
+      </section>
+      <section className="mt-20">
+        <div className="container mx-auto px-6">
+          <BrowseCategories isMobileMenu={false} />
+        </div>
+      </section>
+      <section className="my-28 lg:my-40">
+        <div className="container mx-auto px-6">
+          <About />
+        </div>
+      </section>
     </>
   );
 }

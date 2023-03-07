@@ -39,13 +39,13 @@ export default function Description({ item }) {
     );
   };
   return (
-    <section className="container mx-auto flex flex-col gap-4 items-center">
-      <div className="mt-4 self-start px-4">
+    <div className="container mx-auto flex flex-col gap-4 items-center md:px-6">
+      <div className="mt-6 self-start px-4">
         <Link href={`/${item.category}`}>Go back</Link>
       </div>
-      <div className="flex flex-col items-center gap-8">
+      <div className="mt-6 flex flex-col items-center gap-8 md:grid md:grid-cols-2 md:gap-4">
         <ProductImage item={item} />
-        <div className="px-6">
+        <div className="px-6 md:pr-0">
           {item.new && (
             <p className="tracking-[10px] uppercase text-brand mb-6">
               New Product
@@ -57,8 +57,9 @@ export default function Description({ item }) {
           <p className="text-base text-black/50 font-medium">
             {item.description}
           </p>
+          <AddToCart item={item} />
         </div>
       </div>
-    </section>
+    </div>
   );
 }
