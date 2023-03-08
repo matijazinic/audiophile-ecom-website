@@ -11,10 +11,7 @@ import { useRouter } from "next/router";
 import Cart from "../cart/Cart";
 import { atom, useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
 import { cartAtom, cartToggle, mobileToggle } from "@/state";
-import {
-  productCategories as mobileMenuItems,
-  productCategories,
-} from "@/constants";
+import { productCategories } from "@/constants";
 import BrowseCategories from "./BrowseCategories";
 
 export default function Navbar() {
@@ -72,6 +69,7 @@ export default function Navbar() {
       <nav
         className="container mx-auto py-8 lg:py-12 px-4 md:px-8 lg:px-8 relative border-b border-b-white/10"
         aria-label="Main navigation"
+        id="navbar"
       >
         <div className="container mx-auto flex flex-row items-center justify-between md:justify-start lg:justify-between">
           <button

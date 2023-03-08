@@ -1,4 +1,3 @@
-import React from "react";
 import { cartAtom } from "@/state";
 import { useAtomValue } from "jotai";
 import CartItem from "../cart/CartItem";
@@ -13,8 +12,9 @@ export default function Summary() {
   );
   const shipping = 50;
   console.log(cart);
+
   return (
-    <div className="mt-4 rounded-lg bg-white w-full">
+    <div className="mt-4 py-8 px-6 rounded-lg bg-white w-full">
       <div className="p-4 pb-6 flex flex-col gap-6">
         <div className="flex">
           <p className="font-bold text-lg uppercase">Summary</p>
@@ -56,13 +56,22 @@ export default function Summary() {
             </div>
           </div>
         )}
-        <Link
-          href={cart.length <= 0 ? "/" : "/checkout"}
-          onClick={() => setCartOpen(false)}
-          className="uppercase text-white text-[13px] font-bold tracking-[1px] bg-brand hover:bg-brand-light text-center transition-all px-8 py-4"
-        >
-          {cart.length <= 0 ? "Start shopping" : "Continue & pay"}
-        </Link>
+        {cart.length < 1 && (
+          <Link
+            href={"/"}
+            className="uppercase text-white text-[13px] font-bold tracking-[1px] bg-brand hover:bg-brand-light text-center transition-all px-8 py-4"
+          >
+            Start Shopping
+          </Link>
+        )}
+        {cart.length > 0 && (
+          <button
+            type="submit"
+            className="uppercase text-white text-[13px] font-bold tracking-[1px] bg-brand hover:bg-brand-light text-center transition-all px-8 py-4"
+          >
+            Continue & Pay
+          </button>
+        )}
       </div>
     </div>
   );
