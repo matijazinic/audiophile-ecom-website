@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function PaymentMethodFields({ register, errors }) {
-  console.log(errors);
   return (
     <div className="flex flex-col gap-6">
       <div

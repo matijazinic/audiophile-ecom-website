@@ -4,29 +4,25 @@ import {
   AiOutlineClose,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import { HiChevronRight } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Cart from "../cart/Cart";
 import { atom, useAtom, useAtomValue, useSetAtom, useStore } from "jotai";
 import { cartAtom, cartToggle, mobileToggle } from "@/state";
 import { productCategories } from "@/constants";
 import BrowseCategories from "./BrowseCategories";
+import { useIsHome } from "@/helpers/isHome";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useAtom(mobileToggle);
   const [cartOpen, setCartOpen] = useAtom(cartToggle);
   const cartAmount = useAtomValue(cartAtom).length;
-
-  console.log(cartAmount);
-
-  const router = useRouter();
+  const home = useIsHome();
 
   useEffect(() => {
     mobileOpen || cartOpen
-      ? (document.body.className = "overflow-hidden bg-[#F2F2F2]")
-      : (document.body.className = "overflow-auto bg-[#F2F2F2]");
+      ? (document.body.className = "overflow-hidden bg-[#fafafa]")
+      : (document.body.className = "overflow-auto bg-[#fafafa]");
   }, [mobileOpen, cartOpen]);
 
   const DesktopMenuLinks = () => {
@@ -61,11 +57,7 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className={`${
-        router.pathname === "/" ? "bg-transparent" : "bg-black"
-      } z-20 relative`}
-    >
+    <header className={`${home ? "bg-transparent" : "bg-black"} z-20 relative`}>
       <nav
         className="container mx-auto py-8 lg:py-12 px-4 md:px-8 lg:px-8 relative border-b border-b-white/10"
         aria-label="Main navigation"

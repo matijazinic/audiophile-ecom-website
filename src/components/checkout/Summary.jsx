@@ -11,7 +11,6 @@ export default function Summary() {
     [0]
   );
   const shipping = 50;
-  console.log(cart);
 
   return (
     <div className="mt-4 py-8 px-6 rounded-lg bg-white w-full">

@@ -2,15 +2,13 @@ import { cartAtom } from "@/state";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import AddToCart from "../cart/AddToCart";
 
 export default function Description({ item }) {
-  console.log(item);
   const cart = useAtomValue(cartAtom);
-  const itemAlreadyInCart = cart.some((it) => it.id === item.id);
-  console.log(itemAlreadyInCart);
-  console.log(cart);
+  const router = useRouter();
   const ProductImage = ({ item }) => {
     return (
       <>
@@ -40,8 +38,13 @@ export default function Description({ item }) {
   };
   return (
     <div className="container mx-auto flex flex-col gap-4 items-center md:px-6">
-      <div className="mt-6 self-start px-4">
-        <Link href={`/${item.category}`}>Go back</Link>
+      <div className="mt-12 self-start px-4">
+        <button
+          onClick={() => router.back()}
+          className="transition-all hover:text-brand"
+        >
+          Go back
+        </button>
       </div>
       <div className="mt-6 flex flex-col items-center gap-8 md:grid md:grid-cols-2 md:gap-4">
         <ProductImage item={item} />

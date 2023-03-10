@@ -9,6 +9,8 @@ import Image from "next/image";
 import { useAtom, useSetAtom } from "jotai";
 import { cartAtom, cartToggle } from "@/state";
 import Link from "next/link";
+import SummaryData from "./SummaryData";
+import { useRouter } from "next/router";
 Modal.setAppElement("#navbar");
 
 export default function CheckoutMain() {
@@ -20,36 +22,43 @@ export default function CheckoutMain() {
 
     formState: { errors, isSubmitSuccessful },
   } = useForm({ resolver: yupResolver(checkoutSchema), mode: "onTouched" });
-
+  const router = useRouter();
   const [cart, setCart] = useAtom(cartAtom);
   const setCartOpen = useSetAtom(cartToggle);
   const [summaryData, setSummaryData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [viewMore, setViewMore] = useState(false);
   const totalPrice = summaryData.reduce(
     (acc, item) => +acc + +item.price * +item.quantity,
     [0]
   );
 
   const onSubmit = (data) => {
-    console.log(data);
     console.log("Form submitted");
-
+    console.log(data);
+    setUserData(data);
     setSummaryData(cart);
 
     setCart([]);
     setCartOpen(false);
     reset();
+    setViewMore(false);
 
     return;
   };
-
-  console.log(isSubmitSuccessful);
-  console.log(summaryData);
-  console.log(cart);
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col items-center justify-center gap-12 lg:grid lg:grid-cols-2/1 lg:gap-6 xl:gap-8 lg:items-start">
+        <div className="self-start px-4">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="transition-all hover:text-brand"
+          >
+            Go back
+          </button>
+        </div>
+        <div className="mt-6 flex flex-col items-center justify-center gap-12 lg:grid lg:grid-cols-2/1 lg:gap-6 xl:gap-8 lg:items-start">
           <Form register={register} errors={errors} watch={watch} />
           <Summary />
         </div>
@@ -90,33 +99,16 @@ export default function CheckoutMain() {
                   Thank you for your order
                 </h1>
                 <p className="text-black/50 font-medium">
-                  You will receive an email confirmation shortly.
+                  You will receive an email confirmation shortly at{" "}
+                  <span className="font-bold">{userData?.email}</span>.
                 </p>
                 <div className="flex flex-col md:grid md:grid-cols-2">
                   <div className="bg-[#f1f1f1] px-4 md:px-6 py-12 rounded-tl-lg rounded-tr-lg md:rounded-bl-lg md:rounded-tr-none">
-                    <div className="flex items-start">
-                      <Image
-                        src={summaryData[0].image.desktop}
-                        width={48}
-                        height={48}
-                        alt={summaryData[0].name}
-                      />
-                      <div className="ml-2 lg:ml-6 font-bold pr-4 sm:pr-8">
-                        <p>{summaryData[0].name}</p>
-                        <p className="text-black/50">
-                          {formatter.format(summaryData[0].price)}
-                        </p>
-                      </div>
-                      <p className="ml-auto font-medium text-black/50">
-                        x{summaryData[0].quantity}
-                      </p>
-                    </div>
-                    <hr className="border-1 border-black/10 mt-6" />
-                    {summaryData.length > 1 && (
-                      <p className="text-center text-black/50 font-bold mt-6 text-sm">
-                        and {summaryData.length - 1} other item(s)
-                      </p>
-                    )}
+                    <SummaryData
+                      data={summaryData}
+                      viewMore={viewMore}
+                      setViewMore={setViewMore}
+                    />
                   </div>
                   <div className="bg-black pl-12 flex flex-col justify-center gap-4 pr-6 py-8 rounded-bl-lg rounded-br-lg md:rounded-bl-none md:rounded-tr-lg">
                     <p className="text-white/50 uppercase tracking-[1px] text-lg">

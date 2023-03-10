@@ -2,7 +2,6 @@ import React from "react";
 import he from "he";
 
 export default function Features({ item }) {
-  console.log(item.features);
   return (
     <div className="flex flex-col mt-20">
       <div className="px-6">

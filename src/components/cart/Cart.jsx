@@ -28,7 +28,6 @@ export default function Cart() {
         .filter((item) => item.quantity > 0)
     );
   }
-  console.log(cart);
   return (
     <div
       // onClick={() => setCartOpen(false)}

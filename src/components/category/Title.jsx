@@ -1,4 +1,4 @@
-import { capitalize } from "@/hooks/capitalize";
+import { capitalize } from "@/helpers/capitalize";
 import { useRouter } from "next/router";
 import React from "react";
 

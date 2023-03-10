@@ -45,6 +45,7 @@ export default function AddToCart({ item }) {
           : prev.concat(cartItem);
       } else return [cartItem];
     });
+    setQuantity(1);
   }
 
   return (

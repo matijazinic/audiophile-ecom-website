@@ -2,9 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Images({ item }) {
-  console.log(item.gallery);
   const images = Object.values(item.gallery);
-  console.log(images);
   const ProductImage = ({ it, item, index }) => {
     return (
       <>
