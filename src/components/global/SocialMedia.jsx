@@ -23,7 +23,7 @@ export default function SocialMedia({ className }) {
     <div className={className}>
       {social.map((item) => {
         return (
-          <Link key={item.name} href="#" className="transition-all">
+          <Link key={item.name} href="#" aria-label={item.name} className="transition-all">
             {item.svg}
           </Link>
         );

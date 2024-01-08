@@ -11,10 +11,12 @@ import data from "../../data.json";
 export default function Category({ items }) {
   const router = useRouter();
   const { category } = router.query;
+
+  const title = `${capitalize(category)} - Audiophile Ecommerce Website`
   return (
     <>
       <Head>
-        <title>{capitalize(category)} - Audiophile Ecommerce Website</title>
+        <title>{title}</title>
         <meta
           name="description"
           content={`${capitalize(category)} - Audiophile Ecommerce Website`}
@@ -27,12 +29,12 @@ export default function Category({ items }) {
         <Products items={items} />
       </section>
       <section className="mt-20">
-        <div className="container mx-auto px-6">
+        <div className="container px-6 mx-auto">
           <BrowseCategories isMobileMenu={false} />
         </div>
       </section>
       <section className="my-28 lg:my-40">
-        <div className="container mx-auto px-6">
+        <div className="container px-6 mx-auto">
           <About />
         </div>
       </section>

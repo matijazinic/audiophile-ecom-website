@@ -14,10 +14,12 @@ import About from "@/components/global/About";
 export default function Product({ item }) {
   const router = useRouter();
   const { category, slug } = router.query;
+
+  const title = `${item.name} - Audiophile Ecommerce Website`
   return (
     <>
       <Head>
-        <title>{item.name} - Audiophile Ecommerce Website</title>
+        <title>{title}</title>
         <meta
           name="description"
           content={`${item.name} - Audiophile Ecommerce Website`}
@@ -39,12 +41,12 @@ export default function Product({ item }) {
       </section>
       <RelatedProducts item={item} />
       <section className="mt-20">
-        <div className="container mx-auto px-6">
+        <div className="container px-6 mx-auto">
           <BrowseCategories isMobileMenu={false} />
         </div>
       </section>
       <section className="my-28 lg:my-40">
-        <div className="container mx-auto px-6">
+        <div className="container px-6 mx-auto">
           <About />
         </div>
       </section>

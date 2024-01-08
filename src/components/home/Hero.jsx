@@ -9,19 +9,22 @@ const HeroImage = () => {
         src={"/assets/home/mobile/image-header.jpg"}
         alt="Hero image"
         fill
-        className="absolute inset-0 h-full w-full mix-blend-multiply block md:hidden"
+        priority={true}
+        className="block absolute inset-0 w-full h-full mix-blend-multiply md:hidden"
       />
       <Image
         src={"/assets/home/tablet/image-header.jpg"}
         alt="Hero image"
         fill
-        className="absolute inset-0 h-full w-full mix-blend-multiply hidden md:block lg:hidden"
+        priority={true}
+        className="hidden absolute inset-0 w-full h-full mix-blend-multiply md:block lg:hidden"
       />
       <Image
         src={"/assets/home/desktop/image-hero.jpg"}
         alt="Hero image"
         fill
-        className="absolute inset-0 h-full w-full mix-blend-multiply hidden lg:block"
+        priority={true}
+        className="hidden absolute inset-0 w-full h-full mix-blend-multiply lg:block"
       />
     </>
   );
